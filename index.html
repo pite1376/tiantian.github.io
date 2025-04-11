@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>田先花 - AI内容创作与智能体开发专家</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/index.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .dark {
+            --primary-color: #818cf8;
+            --secondary-color: #a78bfa;
+            --text-primary: #f9fafb;
+            --text-secondary: #e5e7eb;
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .card {
+            background-color: var(--bg-primary);
+            border-radius: 0.75rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .section-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            height: 1rem;
+            width: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        .skill-tag {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .avatar-placeholder {
+            width: 150px;
+            height: 150px;
+            background-color: #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部信息 -->
+        <header class="card p-8 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div>
+                    <h1 class="text-4xl font-bold mb-2">田先花</h1>
+                    <p class="text-xl text-gray-600 dark:text-gray-300">智能体开发 / AI 内容创作专家</p>
+                    <div class="mt-4 flex flex-wrap">
+                        <div class="mr-6 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <span>15070759480</span>
+                        </div>
+                        <div class="mr-6 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <span>1491701061@qq.com</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <p class="text-gray-600 dark:text-gray-300">教育背景：江西师范大学 | 本科 | 2015-2019</p>
+                    </div>
+                    <div class="mt-3">
+                        <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium text-sm">期望薪资：8k-10k</div>
+                    </div>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <div class="avatar-placeholder">
+                        <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden">
+<img src='https://i.postimg.cc/0j4wTMZQ/20250411090017.jpg' border='0' alt="田先花头像" class="w-full h-full object-cover">
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 个人概述 -->
+        <section class="card p-8 mb-8">
+            <h2 class="section-title text-2xl">个人概述</h2>
+            <p class="mb-4">5年电商设计转型AI实践内容专家，擅长整合ChatGPT、Midjourney、Coze等AI工具协同应用，打造高效内容生产流程。</p>
+            <p class="mb-4">参与开发多个智能体，获得百度、字节跳动多个奖项，AI视频作品入选央视展播。</p>
+            <p>致力于将AI从"工具"升级为"搭档"，为企业提供智能化内容解决方案。</p>
+        </section>
+
+      <!-- 证书与荣誉 -->
+<section class="card p-8 mb-8">
+    <h2 class="section-title text-2xl">获得奖项</h2>
+    <ul class="list-disc pl-5 space-y-2 mb-6">
+        <li>百度受邀分享嘉宾，智能体七夕特别活动官方推荐。</li>
+        <li>扣子平台ShowMe官方赛事二等奖。</li>
+        <li>扣子官方三等奖和智纪比赛二等奖。</li>
+        <li>AI视频作品入选央视共尔AI艺术节展播。</li>
+    </ul>
+      
+   </section>
+
+
+        <!-- 核心能力 -->
+        <section class="card p-8 mb-8">
+            <h2 class="section-title text-2xl">核心能力</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="font-medium">智能体设计开发</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">熟练使用Coze平台开发智能体，开发多个智能体项目。</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="font-medium">Prompt工程</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">熟悉提示词设计与优化，能针对不同场景设计高效提示策略。</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="font-medium">AI应用流程设计</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">能深入分析业务痛点，设计AI解决方案，构建完整工作流。</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="font-medium">知识库构建</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">能有效梳理行业知识，构建结构化知识库支持智能体应用。</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="font-medium">图文创作</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">擅长文生文、文生图、AI视频等创作，掌握Midjourney/即梦等工具。</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="font-medium">业务流程优化</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">擅长通过 AI 技术解决业务痛点，提升内容生产效率与用户体验。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 工作经验 -->
+        <section class="card p-8 mb-8">
+            <h2 class="section-title text-2xl">工作经验</h2>
+            
+            <div class="mb-8">
+                <div class="flex flex-col md:flex-row justify-between mb-2">
+                    <h3 class="text-xl font-semibold">上海晶大人造花有限公司</h3>
+                    <span class="text-gray-600 dark:text-gray-300">2024年4月 - 2025年3月</span>
+                </div>
+                <p class="text-lg font-medium text-indigo-600 mb-3">AI应用实践负责人</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong>AI 辅助拍摄：</strong>主导 AI 辅助产品拍摄与陈列优化，通过生成拍摄方案和陈列效果图，降低试错成本，提升拍摄效率 30%，返工率降至 5%。</li>
+                    <li><strong>AI 空间展示：</strong>使用 MidJourney 生成空间场景图，结合 PS 合成丰富产品展示，解决传统场景受限问题。</li>
+                    <li><strong>AI 新品策划：</strong>主导AI辅助商品内容策划全流程，完成新品系列命名、卖点提炼及详情页框架供设计师使用。</li>
+                    <li><strong>AI 内容批量：</strong>结合飞书多维表格与 DeepSeek，实现小红书内容、直播话术的批量生产。</li>
+                    <li><strong>AI 评论生成：</strong>参与 AI 辅助评论话术，生成好评与差评回复，提升客服效率，优化客户满意度与店铺评分。</li>
+                </ul>
+            </div>
+            
+            <div>
+                <div class="flex flex-col md:flex-row justify-between mb-2">
+                    <h3 class="text-xl font-semibold">上海晶大人造花有限公司</h3>
+                    <span class="text-gray-600 dark:text-gray-300">2019年9月 - 2024年3月</span>
+                </div>
+                <p class="text-lg font-medium text-indigo-600 mb-3">电商视觉设计师</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>负责电商平台淘宝首页、详情页、活动页的视觉设计。</li>
+                    <li>独立完成产品拍摄及上架前端，协同运营制定爆款策略。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 项目经验 -->
+        <section class="card p-8 mb-8">
+            <h2 class="section-title text-2xl">项目经验</h2>
+            
+            <!-- 项目1 -->
+            <div class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-2">珠宝运营AI小程序（进行中）</h3>
+                <p class="mb-3"><span class="font-medium">项目背景：</span>为珠宝行业开发内容运营AI小程序，实现从文案创作到用户互动的全流程。</p>
+                <p class="mb-3"><span class="font-medium">我负责的：</span>搭建文案工作流，支持多种笔记结构与人设类型。梳理珠宝行业专业知识、设计coze应用端用户交互界面。                  
+                </ol>
+                <p class="mb-3"><span class="font-medium">项目成果：</span>小程序即将上线，引流机器人SOP完成交付。</p>
+            </div>
+            
+            <!-- 项目2 -->
+            <div class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-2">香港保险内容创作智能体</h3>
+                <p class="mb-3"><span class="font-medium">项目背景：</span>为香港保险从业者打造内容创作智能体，帮助其在小红书建立个人品牌。</p>
+                <p class="mb-3"><span class="font-medium">我负责的：</span>产品功能流程设计，搭建人设定位、选题推荐和爆款二创工作流。</p>
+                <p class="mb-3"><span class="font-medium">项目成果：</span>实现内容策划自动化，输出结构化内容模板，助力客户发布内容。</p>
+            </div>
+            
+            <!-- 项目3 -->
+            <div class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-2">内容运营助手（获扣子平台二等奖）</h3>
+                <p class="mb-3"><span class="font-medium">项目背景：</span>内容创作者面临选题难、创作慢、风格不一致等痛点，需要AI助力提升内容生产效率。</p>
+                <p class="mb-3"><span class="font-medium">我负责的：</span>设计内容运营SOP，覆盖账号定位、运营规划、选题推荐、内容生成全流程、搭建爆款二创工作流。</p>
+                <p class="mb-3"><span class="font-medium">项目成果：</span>荣获扣子ShowMe官方赛事二等奖，上架扣子官方模板商城。</p>
+            </div>
+            
+            <!-- 项目4 -->
+            <div class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-2">小红书爆款文案生成工具（获扣子平台三等奖）</h3>
+                <p class="mb-3"><span class="font-medium">项目背景：</span>参加Coze官方实用赛道比赛，针对小红书创作者群体面临的创意枯竭、效率低下等痛点，开发一款AI文案助手。</p>
+                <p class="mb-3"><span class="font-medium">我负责的：</span> 参与Bot整体功能架构设计、开场白和全流程对话话术的撰写、整合并优化工作流
+                </ol>
+                <p class="mb-3"><span class="font-medium">项目成果：</span>荣获扣子平台官方比赛三等奖。累计使用次数2.7k次，对话总数达13.1k次。
+                </ol>
+            </div>
+            
+            <!-- 项目5 -->
+            <div class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-2">情感漂流瓶智能体（入选百度智能体七夕特别活动）</h3>
+                <p class="mb-3"><span class="font-medium">项目概述：</span>现代人情感表达与倾诉需求强烈，但缺乏安全、私密的表达渠道，需要一个能提供共情回应的平台。</p>
+                <p class="mb-3"><span class="font-medium">我负责的：</span>设计趣味漂流瓶交互、实施安全防护机制、优化基于心理学的共情回复质量。</p>
+                <p class="mb-3"><span class="font-medium">项目成果：</span>受邀分享嘉宾，入选百度智能体七夕特别活动，获得官方推荐。</p>
+            </div>
+            
+            <!-- 项目6 -->
+            <div class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-2">职业规划导师智能体（获扣子官方三等奖和智纪比赛二等奖）</h3>
+                <p class="mb-3"><span class="font-medium">项目概述：</span>求职者在职业选择上常感迷茫，需要专业化、个性化的职业规划指导。</p>
+                <p class="mb-3"><span class="font-medium">我负责的：</span>项目发起者，负责整体项目规划和产品流程设计，并实现包含初始化、职业规划、职业漫画的工作流。
+                </ol>
+                <p class="mb-3"><span class="font-medium">项目成果：</span>获得扣子官方3等奖和智纪比赛2等奖双重认可。累计对话3000+次
+                </ul>
+            </div>
+            
+            <!-- 项目7 -->
+            <div class="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-2">角色扮演：「这个茶馆不一般」</h3>
+                <p class="mb-3"><span class="font-medium">项目背景：</span>打造沉浸式对话智能体，模拟茶馆老板与用户互动交流探索角色扮演类AI的沉浸式体验设计。</p>
+                <p class="mb-3"><span class="font-medium">我负责的：</span>负责设计Bot全流程交互体验与话术，同时参与整体功能架构与用户体验优化。</p>
+                <p class="mb-3"><span class="font-medium">项目成果：</span>产品上线首日吸引1k+用户，点击量破4k，两天内累计使用2.7k人次。连续2天获得官方热门推荐
+                </ol>
+            </div>
+            
+            <!-- 项目8 -->
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-2">AI视频项目《阿尔滋海默症》（入选央视共尔AI艺术节）</h3>
+    
+                <p class="mb-3"><span class="font-medium">项目概述：</span>项目以"阿尔兹海默"为主题，旨在通过AIGC技术构建梦幻与现实并存的记忆场景，探索AI技术在医疗人文关怀领域的创新应用。</p>
+                <p class="mb-3"><span class="font-medium">我负责的：</span>担任项目统筹协调人，推动项目从零到一的落地。负责从AI春晚到央视共尔AI艺术节的升级与适配工作。
+                </ol>
+                <p class="mb-3"><span class="font-medium">项目成果：</span>双重展播，作品先在AI春晚亮相获得好评，后成功入选首届共尔AI艺术节，在央视平台进行全国展播</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- 主题切换按钮 -->
+    <div class="theme-toggle" id="themeToggle">
+        <svg class="w-6 h-6" id="darkIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        <svg class="w-6 h-6 hidden" id="lightIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+    </div>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const darkIcon = document.getElementById('darkIcon');
+        const lightIcon = document.getElementById('lightIcon');
+        
+        // 检查用户偏好
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            darkIcon.classList.add('hidden');
+            lightIcon.classList.remove('hidden');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            }
+        });
+        
+        // 页面滚动动画效果
+        const cards = document.querySelectorAll('.card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
+
